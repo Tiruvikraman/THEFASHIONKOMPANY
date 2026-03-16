@@ -11,6 +11,7 @@ import Fabrics from "./pages/Fabrics";
 import Manufacturing from "./pages/Manufacturing";
 import Sustainability from "./pages/Sustainability";
 import AIDesigner from "./pages/AIDesigner";
+import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
@@ -25,6 +26,7 @@ const App = () => (
         <Navbar />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
           <Route path="/products" element={<Products />} />
           <Route path="/fabrics" element={<Fabrics />} />
           <Route path="/manufacturing" element={<Manufacturing />} />
