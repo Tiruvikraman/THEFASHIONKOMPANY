@@ -10,10 +10,11 @@ import Products from "./pages/Products";
 import Fabrics from "./pages/Fabrics";
 import Manufacturing from "./pages/Manufacturing";
 import Sustainability from "./pages/Sustainability";
-import AIDesigner from "./pages/AIDesigner";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import Our_clients from "./pages/Our_clients";
+import ScrollToTop from "./pages/ScrolltoTop";
 
 const queryClient = new QueryClient();
 
@@ -23,15 +24,16 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Navbar />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/our-clients" element={<Our_clients />} />
           <Route path="/fabrics" element={<Fabrics />} />
           <Route path="/manufacturing" element={<Manufacturing />} />
           <Route path="/sustainability" element={<Sustainability />} />
-          <Route path="/ai-designer" element={<AIDesigner />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

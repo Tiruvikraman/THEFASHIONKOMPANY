@@ -1,0 +1,191 @@
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Shirt, HardHat } from "lucide-react";
+
+/* ─── DYNAMIC IMAGES ─────────────────────────────────────────────────────── */
+const images = import.meta.glob("/src/assets/brand_images/*.{png,jpg,jpeg,svg}", { eager: true });
+
+const brands: Record<string, string> = {};
+Object.entries(images).forEach(([path, img]: any) => {
+  const file = path.split("/").pop()?.toLowerCase().replace(/\s/g, "");
+  brands[file!] = img.default;
+});
+
+/* ─── BRAND GRID — static, colorful, zoom on hover ──────────────────────── */
+function BrandGrid({ items }: { items: string[] }) {
+  const ref    = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <div ref={ref} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      {items.map((key, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+          whileHover={{ scale: 1.1, y: -4, zIndex: 10 }}
+          className="group flex items-center justify-center rounded-2xl cursor-pointer relative overflow-hidden"
+          style={{
+            height: 90,
+            background: "linear-gradient(135deg, #ffffff, #f0f4ff)",
+            border: "1.5px solid #e0e7ff",
+            boxShadow: "0 2px 12px rgba(99,102,241,0.08)",
+            transition: "box-shadow 0.3s ease, border-color 0.3s ease",
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 36px rgba(99,102,241,0.25)";
+            (e.currentTarget as HTMLElement).style.borderColor = "#818cf8";
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(99,102,241,0.08)";
+            (e.currentTarget as HTMLElement).style.borderColor = "#e0e7ff";
+          }}
+        >
+          {/* hover shimmer bg */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ background: "linear-gradient(135deg, #ede9fe50, #bfdbfe50)" }}
+          />
+
+          <img
+            src={brands[key]}
+            alt={key.replace(/\.(png|jpg|jpeg|svg)$/, "").replace(/[-_]/g, " ")}
+            className="relative h-12 md:h-14 w-full object-contain px-4"
+            style={{ filter: "none" }}
+          />
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+/* ─── SECTION HEADER ─────────────────────────────────────────────────────── */
+function SectionHeader({ icon: Icon, label, title, color }: {
+  icon: typeof Shirt; label: string; title: string; color: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="mb-10"
+    >
+      <div className="flex items-center gap-3 mb-3">
+        <div
+          className="w-8 h-8 rounded-lg flex items-center justify-center"
+          style={{ background: `${color}15`, border: `1px solid ${color}30` }}
+        >
+          <Icon className="w-4 h-4" style={{ color }} />
+        </div>
+        <span className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color }}>
+          {label}
+        </span>
+      </div>
+      <h2
+        className="text-2xl md:text-3xl font-black text-gray-900"
+        style={{ fontFamily: "'Syne', sans-serif" }}
+      >
+        {title}
+      </h2>
+      <div className="mt-3 h-[2px] w-10 rounded-full" style={{ background: `linear-gradient(90deg, ${color}, transparent)` }} />
+    </motion.div>
+  );
+}
+
+/* ─── MAIN ───────────────────────────────────────────────────────────────── */
+export default function BrandSections() {
+  const fashionBrands = [
+    "harmont&blaine.png", "sonnybonno.png",  "yamamay.png",
+    "f__k.png",           "bhtextile.png",  "tailorenstitch.png",
+      "jack&jones.png", 
+    "lolaliza.png",       "treeker9.png",   "cat.png","masculinilatino.png",
+           "netplay.png",
+  ];
+
+  const workwearBrands = [
+    "cat.png", "tailorenstitch.png", "groenendijk.png","vodaphone.png",
+    "opel.png", "bmw.png", "kubler.png", "benz.png",
+  ];
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap');
+      `}</style>
+
+      <main
+        className="pt-[68px]"
+        style={{
+          background: "linear-gradient(170deg, #f8fafc 0%, #f1f5f9 100%)",
+          fontFamily: "'Inter', sans-serif",
+        }}
+      >
+        {/* ── PAGE HERO ── */}
+        <section
+          className="relative py-20 overflow-hidden"
+          style={{ background: "linear-gradient(160deg, #07071a 0%, #0d0d2b 60%, #060616 100%)" }}
+        >
+          <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{
+            backgroundImage: "linear-gradient(rgba(165,180,252,1) 1px, transparent 1px), linear-gradient(90deg, rgba(165,180,252,1) 1px, transparent 1px)",
+            backgroundSize: "70px 70px",
+          }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full blur-[140px] opacity-15 pointer-events-none"
+            style={{ background: "radial-gradient(circle, #3b82f6, #7c3aed)" }} />
+
+          <div className="container max-w-6xl px-6 relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <span className="inline-flex items-center gap-2 text-xs text-indigo-300 uppercase tracking-[0.25em] font-semibold mb-4">
+                <span className="w-4 h-px bg-indigo-400 inline-block" />
+                Our Clients
+              </span>
+              <h1
+                className="text-4xl md:text-6xl font-black text-white leading-tight"
+                style={{ fontFamily: "'Syne', sans-serif" }}
+              >
+                Brands That{" "}
+                <span style={{
+                  background: "linear-gradient(90deg, #93c5fd, #c4b5fd)",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                }}>
+                  Trust Us
+                </span>
+              </h1>
+              <p className="mt-4 text-white/50 text-sm max-w-lg leading-relaxed">
+                From global fashion labels to world-class workwear manufacturers — we deliver quality that keeps clients coming back.
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0 h-12 bg-slate-50" style={{ clipPath: "polygon(0 100%, 100% 100%, 100% 0)" }} />
+        </section>
+
+        {/* ── BRAND SECTIONS ── */}
+        <section className="py-20">
+          <div className="container max-w-6xl px-6">
+
+            {/* FASHION */}
+            <div className="mb-16">
+              <SectionHeader icon={Shirt} label="Fashion" title="Fashion Brands" color="#1d4ed8" />
+              <BrandGrid items={fashionBrands} />
+            </div>
+
+            <div className="h-px mb-16 bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
+            {/* WORKWEAR */}
+            <div className="mb-12">
+              <SectionHeader icon={HardHat} label="Workwear" title="Workwear Brands" color="#0f766e" />
+              <BrandGrid items={workwearBrands} />
+            </div>
+
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}

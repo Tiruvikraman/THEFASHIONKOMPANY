@@ -1,23 +1,23 @@
 import HeroSection from "@/components/home/HeroSection";
 import StatsSection from "@/components/home/StatsSection";
 import CollectionsSection from "@/components/home/CollectionsSection";
-import AIDesignerPreview from "@/components/home/AIDesignerPreview";
+// import AIDesignerPreview from "@/components/home/AIDesignerPreview";
 import FabricPreview from "@/components/home/FabricPreview";
-import SustainabilitySection from "@/components/home/SustainabilitySection";
 import GlobalReachSection from "@/components/home/GlobalReachSection";
-import CTASection from "@/components/home/CTASection";
-
+import CertificationScroll from "@/components/home/CertificationsSection";
+import BrandLogoCarousel from "@/components/home/brandcarosel";
+import HeroVideoSection from "@/components/home/HeroVideo";
 const Index = () => {
   return (
     <main>
       <HeroSection />
       <StatsSection />
-      <CollectionsSection />
-      <AIDesignerPreview />
       <FabricPreview />
-      <SustainabilitySection />
+      <CollectionsSection />
+      <BrandLogoCarousel />
+      <HeroVideoSection />
+      <CertificationScroll />
       <GlobalReachSection />
-      <CTASection />
     </main>
   );
 };

@@ -1,73 +1,174 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MapPin, Mail, Phone } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-primary-foreground">
-      <div className="container py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <div className="lg:col-span-1">
-            <h3 className="text-2xl font-semibold tracking-tighter mb-4">THE GLOBAL LOOM</h3>
-            <p className="text-primary-foreground/60 text-sm leading-relaxed">
-              Precision manufacturing for the modern label. From Tirupur to the world.
-            </p>
-          </div>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap');
+        .gcm-footer-link { transition: color 0.2s ease, padding-left 0.2s ease; }
+        .gcm-footer-link:hover { padding-left: 4px; color: #93c5fd; }
+      `}</style>
 
-          <div>
-            <p className="font-mono-tech text-primary-foreground/40 mb-4">Products</p>
-            <div className="flex flex-col gap-3">
-              {["T-Shirts", "Polos", "Hoodies", "Joggers", "Sportswear", "Kidswear"].map((item) => (
-                <Link key={item} to="/products" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">
-                  {item}
-                </Link>
-              ))}
+      <footer
+        style={{
+          background: "linear-gradient(160deg, #07071a 0%, #0d0d2b 60%, #060616 100%)",
+          fontFamily: "'Inter', sans-serif",
+          borderTop: "1px solid rgba(255,255,255,0.07)",
+        }}
+      >
+        {/* ── TOP BAND ── */}
+        <div className="container max-w-6xl px-6 pt-16 pb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+
+            {/* ── BRAND COL ── */}
+            <div className="lg:col-span-4 space-y-5">
+
+              {/* Logo + Name row */}
+              <div className="flex items-center gap-3">
+                <img
+                  src={logo}
+                  alt="Gloria Casa Moda"
+                  style={{ height: "48px", width: "auto", objectFit: "contain" }}
+                />
+                <div>
+                  <h3
+                    className="text-xl font-black text-white tracking-tight mb-1"
+                    style={{ fontFamily: "'Syne', sans-serif" }}
+                  >
+                    GLORIA CASA MODA
+                  </h3>
+                  <div className="h-[2px] w-10 rounded-full" style={{ background: "linear-gradient(90deg, #3b82f6, #7c3aed)" }} />
+                </div>
+              </div>
+
+              <p className="text-white/50 text-sm leading-relaxed max-w-xs">
+                Precision manufacturing for the modern label. From Tirupur to the world.
+              </p>
+
+              {/* contact mini-list */}
+              <div className="space-y-2.5">
+                {[
+                  { icon: MapPin, text: "1/3,Ground Floor,Vadaku Thottam,Mangalam Main Road,Parapalayam,Tiruppur – 641604," },
+                  { icon: Mail, text: "mac@gloryhouse.info, mahesh@gloryhouse.info" },
+                  { icon: Phone, text: "+91-98944 20000, +91-97894 99717" },
+                ].map(({ icon: Icon, text }) => (
+                  <div key={text} className="flex items-center gap-2.5">
+                    <Icon className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                    <span className="text-white/50 text-xs">{text}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div>
-            <p className="font-mono-tech text-primary-foreground/40 mb-4">Platform</p>
-            <div className="flex flex-col gap-3">
-              {["AI Designer", "Fabric Library", "Manufacturing", "Sustainability", "Buyer Portal"].map((item) => (
-                <Link key={item} to="/" className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">
-                  {item}
-                </Link>
-              ))}
+
+
+            {/* ── PRODUCTS ── */}
+            <div className="lg:col-span-2 space-y-4">
+              <p className="text-[10px] text-white/30 uppercase tracking-[0.25em] font-semibold">Products</p>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  { label: "T-Shirts", hash: "#tshirts" },
+                  { label: "Polos", hash: "#polos" },
+                  { label: "Hoodies", hash: "#hoodie" },
+                  { label: "Workwear", hash: "#workwear" },
+                  { label: "Women", hash: "#women" },
+                  { label: "Kidswear", hash: "#kids" },
+                  { label: "Home Textiles", hash: "#hometextile" },
+                ].map((item) => (
+                  <Link
+                    key={item.label}
+                    to={`/products${item.hash}`}
+                    className="gcm-footer-link text-sm text-white/55 hover:text-blue-300"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div>
-            <p className="font-mono-tech text-primary-foreground/40 mb-4">Connect</p>
-            <div className="flex flex-col gap-3">
-              {[
-                { label: "LinkedIn", href: "#" },
-                { label: "Instagram", href: "#" },
-                { label: "Contact Sales", href: "/contact" },
-              ].map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors inline-flex items-center gap-1"
+            {/* ── PLATFORM ── */}
+            <div className="lg:col-span-3 space-y-4">
+              <p className="text-[10px] text-white/30 uppercase tracking-[0.25em] font-semibold">Platform</p>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  { label: "Fabric Library", path: "/fabrics" },
+                  { label: "Manufacturing", path: "/manufacturing" },
+                  { label: "Sustainability", path: "/sustainability" },
+                ].map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.path}
+                    className="gcm-footer-link text-sm text-white/55 hover:text-blue-300"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* ── CONNECT ── */}
+            <div className="lg:col-span-3 space-y-4">
+              <p className="text-[10px] text-white/30 uppercase tracking-[0.25em] font-semibold">Connect</p>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  { label: "LinkedIn", href: "https://www.linkedin.com/company/gloria-casa-moda/" },
+                  { label: "Instagram", href: "#" },
+                  { label: "Contact Sales", href: "/contact" },
+                ].map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="gcm-footer-link inline-flex items-center gap-1 text-sm text-white/55 hover:text-blue-300"
+                  >
+                    {item.label}
+                    <ArrowUpRight className="w-3 h-3 opacity-60" />
+                  </a>
+                ))}
+              </div>
+
+              {/* CTA button */}
+              <div className="pt-2">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-white px-4 py-2.5 rounded-full transition-all duration-300"
+                  style={{
+                    background: "linear-gradient(135deg, #1d4ed8, #7c3aed)",
+                    boxShadow: "0 4px 16px rgba(29,78,216,0.3)",
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(29,78,216,0.5)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 16px rgba(29,78,216,0.3)"; }}
                 >
-                  {item.label}
-                  <ArrowUpRight className="w-3 h-3" />
-                </a>
-              ))}
+                  Send an Enquiry
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
+
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-primary-foreground/40">
-            © 2026 The Global Loom. All rights reserved. Tirupur, Tamil Nadu, India.
-          </p>
-          <div className="flex items-center gap-6">
-            <span className="font-mono-tech text-primary-foreground/30">GOTS Certified</span>
-            <span className="font-mono-tech text-primary-foreground/30">OEKO-TEX</span>
-            <span className="font-mono-tech text-primary-foreground/30">ISO 9001</span>
+        {/* ── DIVIDER ── */}
+        <div className="container max-w-6xl px-6">
+          <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)" }} />
+        </div>
+
+        {/* ── BOTTOM BAR ── */}
+        <div className="container max-w-6xl px-6 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+
+            <p className="text-xs text-white/30">
+              © 2026 Gloria Casa Moda. All rights reserved.
+            </p>
+
+
+
           </div>
         </div>
-      </div>
-    </footer>
+
+      </footer>
+    </>
   );
 };
 
