@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Shirt, HardHat } from "lucide-react";
+import { Shirt, HardHat, Globe, ShoppingBag } from "lucide-react";
 
 /* ─── DYNAMIC IMAGES ─────────────────────────────────────────────────────── */
 const images = import.meta.glob("/src/assets/brand_images/*.{png,jpg,jpeg,svg}", { eager: true });
@@ -11,10 +11,11 @@ Object.entries(images).forEach(([path, img]: any) => {
   brands[file!] = img.default;
 });
 
-/* ─── BRAND GRID — static, colorful, zoom on hover ──────────────────────── */
-function BrandGrid({ items }: { items: string[] }) {
+/* ─── BRAND GRID ─────────────────────────────────────────────────────────── */
+function BrandGrid({ items, accentColor }: { items: string[]; accentColor?: string }) {
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
+  const accent = accentColor ?? "#6366f1";
 
   return (
     <div ref={ref} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -34,20 +35,18 @@ function BrandGrid({ items }: { items: string[] }) {
             transition: "box-shadow 0.3s ease, border-color 0.3s ease",
           }}
           onMouseEnter={e => {
-            (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 36px rgba(99,102,241,0.25)";
-            (e.currentTarget as HTMLElement).style.borderColor = "#818cf8";
+            (e.currentTarget as HTMLElement).style.boxShadow = `0 10px 36px ${accent}40`;
+            (e.currentTarget as HTMLElement).style.borderColor = accent;
           }}
           onMouseLeave={e => {
             (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(99,102,241,0.08)";
             (e.currentTarget as HTMLElement).style.borderColor = "#e0e7ff";
           }}
         >
-          {/* hover shimmer bg */}
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            style={{ background: "linear-gradient(135deg, #ede9fe50, #bfdbfe50)" }}
+            style={{ background: `linear-gradient(135deg, ${accent}15, ${accent}08)` }}
           />
-
           <img
             src={brands[key]}
             alt={key.replace(/\.(png|jpg|jpeg|svg)$/, "").replace(/[-_]/g, " ")}
@@ -94,18 +93,50 @@ function SectionHeader({ icon: Icon, label, title, color }: {
   );
 }
 
+/* ─── SUB-SECTION HEADER (for Export / Domestic split) ───────────────────── */
+function SubSectionHeader({ icon: Icon, label, color }: {
+  icon: typeof Globe; label: string; color: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -12 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="flex items-center gap-2 mb-5"
+    >
+      <div
+        className="w-6 h-6 rounded-md flex items-center justify-center"
+        style={{ background: `${color}18`, border: `1px solid ${color}35` }}
+      >
+        <Icon className="w-3 h-3" style={{ color }} />
+      </div>
+      <span
+        className="text-xs font-bold uppercase tracking-[0.2em]"
+        style={{ color }}
+      >
+        {label}
+      </span>
+      <div className="flex-1 h-px ml-2" style={{ background: `linear-gradient(90deg, ${color}40, transparent)` }} />
+    </motion.div>
+  );
+}
+
 /* ─── MAIN ───────────────────────────────────────────────────────────────── */
 export default function BrandSections() {
-  const fashionBrands = [
-    "harmont&blaine.png", "sonnybonno.png",  "yamamay.png",
+  const fashionExportBrands = [
+    "harmont&blaine.png", "sonnybonno.png", "yamamay.png",
     "f__k.png",           "bhtextile.png",  "tailorenstitch.png",
-      "jack&jones.png", 
-    "lolaliza.png",       "treeker9.png",   "cat.png","masculinilatino.png",
-           "netplay.png",
+    "jack&jones.png",     "lolaliza.png",   "treeker9.png",
+    "cat.png",            "gloriajeans.jpg",
+  ];
+
+  const fashionDomesticBrands = [
+    "masculinilatino.png", "netplay.png", "zaivame.png",
   ];
 
   const workwearBrands = [
-    "cat.png", "tailorenstitch.png", "groenendijk.png","vodaphone.png",
+    "cat.png", "tailorenstitch.png", "groenendijk.png", "vodaphone.png",
     "opel.png", "bmw.png", "kubler.png", "benz.png",
   ];
 
@@ -172,7 +203,18 @@ export default function BrandSections() {
             {/* FASHION */}
             <div className="mb-16">
               <SectionHeader icon={Shirt} label="Fashion" title="Fashion Brands" color="#1d4ed8" />
-              <BrandGrid items={fashionBrands} />
+
+              {/* Export Retail */}
+              <div className="mb-10">
+                <SubSectionHeader icon={Globe} label="Export Retail" color="#1d4ed8" />
+                <BrandGrid items={fashionExportBrands} accentColor="#1d4ed8" />
+              </div>
+
+              {/* Domestic Retail */}
+              <div>
+                <SubSectionHeader icon={ShoppingBag} label="Domestic Retail" color="#7c3aed" />
+                <BrandGrid items={fashionDomesticBrands} accentColor="#7c3aed" />
+              </div>
             </div>
 
             <div className="h-px mb-16 bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
@@ -180,7 +222,7 @@ export default function BrandSections() {
             {/* WORKWEAR */}
             <div className="mb-12">
               <SectionHeader icon={HardHat} label="Workwear" title="Workwear Brands" color="#0f766e" />
-              <BrandGrid items={workwearBrands} />
+              <BrandGrid items={workwearBrands} accentColor="#0f766e" />
             </div>
 
           </div>

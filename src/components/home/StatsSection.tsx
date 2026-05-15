@@ -15,7 +15,7 @@ const stats = [
     accent: "#dbeafe",
   },
   {
-    value: 40, suffix: "+",
+    value: 25, suffix: "+",
     label: "Countries Served",
     sub: "Across Europe, Americas & Middle East",
     icon: Globe2,

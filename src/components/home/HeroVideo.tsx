@@ -6,8 +6,8 @@ import PosterImg from "@/assets/thumbnail.png"; // ✅ imported properly
 
 const highlights = [
   "End-to-end sourcing & quality control",
-  "200+ audited factory partners",
-  "On-time delivery across 40+ countries",
+  "50+ audited factory partners",
+  "On-time delivery across 25+ countries",
   "Private label & custom development",
 ];
 

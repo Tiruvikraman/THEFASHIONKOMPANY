@@ -1,116 +1,21 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { ArrowRight, SlidersHorizontal, ChevronDown } from "lucide-react";
+import { SlidersHorizontal, ChevronDown } from "lucide-react";
 
 /* ─── GLOB IMPORTS ───────────────────────────────────────────────────────── */
 const kidsImgs = import.meta.glob("@/assets/product_collections/kids/*.{jpg,jpeg,png,webp}", { eager: true });
-const teeImgs: Record<string, { default: string }> = Object.fromEntries(
-  [
-    "https://gloryhouz.data-corp.in/uploads/glory/style/MLHT8002-B_1.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/MLHT8002-C_1.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/4M6A1885.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/IMG_0141_2.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/IMG_0150_2.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/0A0A22481.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/0A0A1746.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/5W5A0268.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/5W5A0326.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/CH7_7409.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/IMG_1040.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/IMG_0266.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/CH7_7439.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/5W5A0191.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/IMG_0219_1.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/5W5A0212.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/5W5A0365.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/5W5A0308.JPG",
-   
-   
-    "https://gloryhouz.data-corp.in/uploads/glory/style/99.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3060-A.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/148.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3065A.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/CENTER2.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/fronty.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/frnt1.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3070-A.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3071-A.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3073a.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3074A.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3075A.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/CENTER1.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3077a.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3079a.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/147.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/146.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/144.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3088a.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3088b.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/MLT3089-C_1.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3090A.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3091A4.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/99.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3092-A.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3094a.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3095A.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3097A.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3099a.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3102a.JPG",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3117C43.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3118A.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3118B.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3119A.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/140.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/3120.jpg",
-
-    "https://gloryhouz.data-corp.in/uploads/glory/style/11.jpg",
-    "https://gloryhouz.data-corp.in/uploads/glory/style/1.jpg",
-  ].map((url) => [url, { default: url }])
-);
-
-const poloImgs: Record<string, { default: string }> = Object.fromEntries(
-  [
-"https://gloryhouz.data-corp.in/uploads/glory/style/11.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/221C1.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/222c.jpg",
-"https://gloryhouz.data-corp.in/uploads/glory/style/225a.jpg",
-"https://gloryhouz.data-corp.in/uploads/glory/style/225b.jpg",
-"https://gloryhouz.data-corp.in/uploads/glory/style/226b.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/226-D.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/221.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/226-G.jpg",
-"https://gloryhouz.data-corp.in/uploads/glory/style/227B.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/0A0A0124.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/0A0A0147.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/238a.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/0A0A0169.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/239-A.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/239-B.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/240-A.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/240-B.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/240-C.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/240-C1.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/240-D.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/240-D1.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/241-A.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/241-C1.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/241-D.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/241-D1.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/4M6A9756.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/242B.jpg",
-"https://gloryhouz.data-corp.in/uploads/glory/style/FRONT5.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/FRONT6.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/DSC_8909.JPG",
-"https://gloryhouz.data-corp.in/uploads/glory/style/62.JPG",
-  ].map((url) => [url, { default: url }])
-);
-
-
 const mensImgs = import.meta.glob("@/assets/product_collections/mens/*.{jpg,jpeg,png,webp}", { eager: true });
+const menPoloImgs = import.meta.glob("@/assets/product_collections/mens/polo/*.{jpg,jpeg,png,webp}", { eager: true });
+const menTshirtImgs = import.meta.glob("@/assets/product_collections/mens/*.{jpg,jpeg,png,webp}", { eager: true });
+const menSweatshirtImgs = import.meta.glob("@/assets/product_collections/hoodie/*.{jpg,jpeg,png,webp}", { eager: true });
 const womensImgs = import.meta.glob("@/assets/product_collections/womens/*.{jpg,jpeg,png,webp}", { eager: true });
 const hoodieImgs = import.meta.glob("@/assets/product_collections/hoodie/*.{jpg,jpeg,png,webp}", { eager: true });
 const workwearImgs = import.meta.glob("@/assets/product_collections/workwear/*.{jpg,jpeg,png,webp}", { eager: true });
+const innerImgs = import.meta.glob("@/assets/product_collections/Inner_garments/*.{jpg,jpeg,png,webp}", { eager: true });
+const infantImgs = import.meta.glob("@/assets/product_collections/Infants/*.{jpg,jpeg,png,webp}", { eager: true });
+const homeTextilesImgs = import.meta.glob("@/assets/product_collections/HomeTextiles/*.{jpg,jpeg,png,webp}", { eager: true });
+
 const sleevelessImgs: Record<string, { default: string }> = Object.fromEntries(
   [
     "https://gloryhouz.data-corp.in/uploads/glory/style/front6.jpg",
@@ -137,7 +42,9 @@ const sleevelessImgs: Record<string, { default: string }> = Object.fromEntries(
     "https://gloryhouz.data-corp.in/uploads/glory/style/0A0A0304.jpg",
     "https://gloryhouz.data-corp.in/uploads/glory/style/0W2A7716.JPG",
   ].map((url) => [url, { default: url }])
-); const joggersImgs: Record<string, { default: string }> = Object.fromEntries(
+);
+
+const joggersImgs: Record<string, { default: string }> = Object.fromEntries(
   [
     "https://gloryhouz.data-corp.in/uploads/glory/style/DSC_1788.JPG",
     "https://gloryhouz.data-corp.in/uploads/glory/style/DSC_1771.JPG",
@@ -218,7 +125,9 @@ const sleevelessImgs: Record<string, { default: string }> = Object.fromEntries(
     "https://gloryhouz.data-corp.in/uploads/glory/style/CH7_1384.JPG",
     "https://gloryhouz.data-corp.in/uploads/glory/style/CH7_1349.JPG",
   ].map((url) => [url, { default: url }])
-); const shortsImgs: Record<string, { default: string }> = Object.fromEntries(
+);
+
+const shortsImgs: Record<string, { default: string }> = Object.fromEntries(
   [
     "https://gloryhouz.data-corp.in/uploads/glory/style/0W2A7189.JPG",
     "https://gloryhouz.data-corp.in/uploads/glory/style/0W2A7317.JPG",
@@ -258,9 +167,7 @@ const sleevelessImgs: Record<string, { default: string }> = Object.fromEntries(
     "https://gloryhouz.data-corp.in/uploads/glory/style/0W2A7264.JPG",
     "https://gloryhouz.data-corp.in/uploads/glory/style/0W2A7338.JPG",
   ].map((url) => [url, { default: url }])
-); const innerImgs = import.meta.glob("@/assets/product_collections/Inner_garments/*.{jpg,jpeg,png,webp}", { eager: true });
-const infantImgs = import.meta.glob("@/assets/product_collections/Infants/*.{jpg,jpeg,png,webp}", { eager: true });
-const homeTextilesImgs = import.meta.glob("@/assets/product_collections/HomeTextiles/*.{jpg,jpeg,png,webp}", { eager: true });
+);
 
 const toSrcs = (glob: Record<string, unknown>): string[] =>
   Object.values(glob).map((m) => (m as { default: string }).default);
@@ -272,6 +179,7 @@ interface SubCategory {
   accent: string;
   fabric: string;
   images: string[];
+  subcategories?: SubCategory[];
 }
 
 interface FilterGroup {
@@ -293,16 +201,40 @@ const FILTER_GROUPS: FilterGroup[] = [
         label: "Men",
         accent: "#0891b2",
         fabric: "Various",
-        images: [ ...toSrcs(poloImgs), ...toSrcs(teeImgs)]
+        images: toSrcs(mensImgs),
+        subcategories: [
+          {
+            slug: "men-polo",
+            label: "Polo",
+            accent: "#0284c7",
+            fabric: "Pique Cotton",
+            images: toSrcs(menPoloImgs),
+          },
+          {
+            slug: "men-tshirt",
+            label: "T-Shirt",
+            accent: "#0891b2",
+            fabric: "Single Jersey",
+            images: toSrcs(menTshirtImgs),
+          },
+          {
+            slug: "men-sweatshirt",
+            label: "Sweatshirt / Hoodie",
+            accent: "#6d28d9",
+            fabric: "French Terry",
+            images: toSrcs(menSweatshirtImgs),
+          },
+{ slug: "joggers", label: "Joggers", accent: "#dc2626", fabric: "French Terry", images: toSrcs(joggersImgs) },
+      { slug: "shorts", label: "Shorts", accent: "#d97706", fabric: "Various", images: toSrcs(shortsImgs) },
+        ],
       },
       { slug: "women", label: "Women", accent: "#ec4899", fabric: "Various", images: toSrcs(womensImgs) },
       { slug: "kids", label: "Kids", accent: "#7c3aed", fabric: "Combed Cotton", images: toSrcs(kidsImgs) },
       { slug: "infant", label: "Infant", accent: "#247fda", fabric: "Various", images: toSrcs(infantImgs) },
+      // { slug: "sleeveless", label: "Sleeveless", accent: "#059669", fabric: "Single Jersey", images: toSrcs(sleevelessImgs) },
+      
       { slug: "inner", label: "Inners", accent: "#9333ea", fabric: "Various", images: toSrcs(innerImgs) },
-      { slug: "hoodie", label: "Hoodie", accent: "#6d28d9", fabric: "French Terry", images: toSrcs(hoodieImgs) },
-      { slug: "sleeveless", label: "Sleeveless", accent: "#059669", fabric: "Single Jersey", images: toSrcs(sleevelessImgs) },
-      { slug: "joggers", label: "Joggers", accent: "#dc2626", fabric: "French Terry", images: toSrcs(joggersImgs) },
-      { slug: "shorts", label: "Shorts", accent: "#d97706", fabric: "Various", images: toSrcs(shortsImgs) },
+   
     ],
   },
   {
@@ -328,6 +260,7 @@ interface Product {
   id: string;
   name: string;
   category: string;
+  parentCategory: string | null;
   group: string;
   fabric: string;
   accent: string;
@@ -335,36 +268,56 @@ interface Product {
 }
 
 const ALL_PRODUCTS: Product[] = FILTER_GROUPS.flatMap((group) =>
-  group.subcategories.flatMap((cat) =>
-    cat.images.map((src, idx) => ({
+  group.subcategories.flatMap((cat) => {
+    // If this subcategory has its own children, flatten those instead
+    if (cat.subcategories?.length) {
+      return cat.subcategories.flatMap((sub) =>
+        sub.images.map((src, idx) => ({
+          id: `${sub.slug}-${idx}`,
+          name: `${sub.label} ${idx + 1}`,
+          category: sub.slug,
+          parentCategory: cat.slug,
+          group: group.slug,
+          fabric: sub.fabric,
+          accent: sub.accent,
+          image: src,
+        }))
+      );
+    }
+    return cat.images.map((src, idx) => ({
       id: `${cat.slug}-${idx}`,
       name: `${cat.label} ${idx + 1}`,
       category: cat.slug,
+      parentCategory: null,
       group: group.slug,
       fabric: cat.fabric,
       accent: cat.accent,
       image: src,
-    }))
-  )
+    }));
+  })
 );
 
 /* ─── HASH RESOLVER ──────────────────────────────────────────────────────── */
 interface ResolvedFilter {
   group: string;
   sub: string | null;
+  subsub: string | null;
 }
 
 function resolveFilter(hash: string): ResolvedFilter {
   const slug = hash.replace("#", "").toLowerCase().trim();
-  if (!slug) return { group: "all", sub: null };
+  if (!slug) return { group: "all", sub: null, subsub: null };
 
   for (const g of FILTER_GROUPS) {
-    if (g.slug === slug) return { group: g.slug, sub: null };
+    if (g.slug === slug) return { group: g.slug, sub: null, subsub: null };
     for (const s of g.subcategories) {
-      if (s.slug === slug) return { group: g.slug, sub: s.slug };
+      if (s.slug === slug) return { group: g.slug, sub: s.slug, subsub: null };
+      for (const ss of s.subcategories ?? []) {
+        if (ss.slug === slug) return { group: g.slug, sub: s.slug, subsub: ss.slug };
+      }
     }
   }
-  return { group: "all", sub: null };
+  return { group: "all", sub: null, subsub: null };
 }
 
 /* ─── PRODUCT CARD ───────────────────────────────────────────────────────── */
@@ -381,7 +334,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.55, delay: (index % 12) * 0.05, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Link to={`/products/${product.id}`} className="group block">
+      <div className="group block">
         <div
           className="relative rounded-xl overflow-hidden bg-slate-100"
           style={{
@@ -409,10 +362,6 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent" />
 
-
-
-
-
             {/* Name over image */}
             <div className="absolute bottom-0 left-0 right-0 p-4">
               <h3 className="text-white font-bold text-sm leading-snug" style={{ fontFamily: "'Syne', sans-serif" }}>
@@ -427,8 +376,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             <span
               className="text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full"
               style={{ color: product.accent, background: `${product.accent}18` }}
-            >
-            </span>
+            />
           </div>
 
           {/* Bottom accent slide */}
@@ -437,7 +385,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             style={{ background: `linear-gradient(90deg, ${product.accent}, transparent)` }}
           />
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 }
@@ -451,13 +399,15 @@ const Products = () => {
 
   const [activeGroup, setActiveGroup] = useState<string>("all");
   const [activeSub, setActiveSub] = useState<string | null>(null);
+  const [activeSubSub, setActiveSubSub] = useState<string | null>(null);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
 
   /* Sync state from URL hash */
   useEffect(() => {
-    const { group, sub } = resolveFilter(location.hash);
+    const { group, sub, subsub } = resolveFilter(location.hash);
     setActiveGroup(group);
     setActiveSub(sub);
+    setActiveSubSub(subsub);
     if (group !== "all") setOpenGroup(group);
 
     if (location.hash && catalogRef.current) {
@@ -468,12 +418,17 @@ const Products = () => {
   }, [location.hash]);
 
   /* Update state + push history without full navigation */
-  const applyFilter = (groupSlug: string, subSlug?: string) => {
-    const hash = subSlug ? `#${subSlug}` : `#${groupSlug}`;
+  const applyFilter = (groupSlug: string, subSlug?: string, subSubSlug?: string) => {
+    const hash = subSubSlug
+      ? `#${subSubSlug}`
+      : subSlug
+      ? `#${subSlug}`
+      : `#${groupSlug}`;
     window.history.pushState(null, "", `/products${hash}`);
-    const { group, sub } = resolveFilter(hash);
+    const { group, sub, subsub } = resolveFilter(hash);
     setActiveGroup(group);
     setActiveSub(sub);
+    setActiveSubSub(subsub);
     if (group !== "all") setOpenGroup(group);
   };
 
@@ -481,15 +436,21 @@ const Products = () => {
     window.history.pushState(null, "", "/products");
     setActiveGroup("all");
     setActiveSub(null);
+    setActiveSubSub(null);
     setOpenGroup(null);
   };
 
   /* Derive visible products */
   const filtered: Product[] = ALL_PRODUCTS.filter((p) => {
     if (activeGroup === "all") return true;
-    if (activeSub) return p.category === activeSub;
+    if (activeSubSub) return p.category === activeSubSub;
+    if (activeSub) return p.parentCategory === activeSub || p.category === activeSub;
     return p.group === activeGroup;
   });
+
+  /* Helper: find the open group's subcategory data */
+  const openGroupData = FILTER_GROUPS.find((g) => g.slug === openGroup);
+  const openSubData = openGroupData?.subcategories.find((s) => s.slug === activeSub);
 
   return (
     <>
@@ -593,7 +554,7 @@ const Products = () => {
 
           <div className="container max-w-6xl px-6 relative">
 
-            {/* ── FILTER PANEL (SINGLE LINE) ── */}
+            {/* ── FILTER PANEL ── */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -601,7 +562,7 @@ const Products = () => {
               transition={{ duration: 0.5 }}
               className="mb-10"
             >
-              {/* Single row: Filter label + Pills + Item count */}
+              {/* Row 1: Group-level pills */}
               <div className="flex items-center gap-3 flex-wrap">
                 <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
                   <SlidersHorizontal className="w-3.5 h-3.5" />
@@ -656,7 +617,7 @@ const Products = () => {
                             className="w-3 h-3 transition-transform duration-300"
                             style={{
                               transform: openGroup === g.slug ? "rotate(180deg)" : "rotate(0deg)",
-                              opacity: 0.7
+                              opacity: 0.7,
                             }}
                           />
                         )}
@@ -671,9 +632,9 @@ const Products = () => {
                 </span>
               </div>
 
-              {/* Subcategories dropdown (appears below when group is open) */}
+              {/* Row 2: Subcategory pills (level 2) */}
               <AnimatePresence>
-                {openGroup && FILTER_GROUPS.find(g => g.slug === openGroup)?.subcategories.length! > 1 && (
+                {openGroup && (openGroupData?.subcategories.length ?? 0) > 1 && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
@@ -682,13 +643,16 @@ const Products = () => {
                     className="overflow-hidden"
                   >
                     <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-slate-200">
-                      {FILTER_GROUPS.find(g => g.slug === openGroup)?.subcategories.map((sub) => {
+                      {openGroupData?.subcategories.map((sub) => {
                         const isSubActive = activeSub === sub.slug;
                         return (
                           <button
                             key={sub.slug}
-                            onClick={() => applyFilter(openGroup, sub.slug)}
-                            className="text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-all duration-200"
+                            onClick={() => {
+                              applyFilter(openGroup, sub.slug);
+                              setActiveSubSub(null);
+                            }}
+                            className="text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-all duration-200 flex items-center gap-1"
                             style={{
                               background: isSubActive
                                 ? `linear-gradient(135deg, ${sub.accent}, ${sub.accent}cc)`
@@ -699,6 +663,52 @@ const Products = () => {
                             }}
                           >
                             {sub.label}
+                            {(sub.subcategories?.length ?? 0) > 0 && (
+                              <ChevronDown
+                                className="w-3 h-3"
+                                style={{
+                                  transform: isSubActive ? "rotate(180deg)" : "rotate(0deg)",
+                                  transition: "transform 0.3s",
+                                  opacity: 0.7,
+                                }}
+                              />
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Row 3: Sub-subcategory pills (level 3 — e.g. Polo / T-Shirt / Sweatshirt under Men) */}
+              <AnimatePresence>
+                {activeSub && (openSubData?.subcategories?.length ?? 0) > 0 && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="flex flex-wrap gap-2 mt-2 pt-2 border-t border-slate-100 pl-4">
+                      {openSubData?.subcategories?.map((ss) => {
+                        const isActive = activeSubSub === ss.slug;
+                        return (
+                          <button
+                            key={ss.slug}
+                            onClick={() => applyFilter(openGroup!, activeSub, ss.slug)}
+                            className="text-[11px] font-semibold px-3 py-1 rounded-full border transition-all duration-200"
+                            style={{
+                              background: isActive
+                                ? `linear-gradient(135deg, ${ss.accent}, ${ss.accent}cc)`
+                                : "#f1f5f9",
+                              color: isActive ? "#fff" : "#64748b",
+                              border: isActive ? "1px solid transparent" : "1px solid #e2e8f0",
+                              boxShadow: isActive ? `0 2px 8px ${ss.accent}40` : "none",
+                            }}
+                          >
+                            {ss.label}
                           </button>
                         );
                       })}
