@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import WomenImg from "@/assets/product_collections/womens/women-17032025-13.jpg";
 import KidsImg from "@/assets/product_collections/kids/1.png";
 import InnerwearImg from "@/assets/product_collections/Inner_garments/1.png";
-import WorkwearImg from "@/assets/product_collections/workwear/1.jpeg";
+import WorkwearImg from "@/assets/product_collections/Workwear/1.jpeg";
 import HomeTextilesImg from "@/assets/product_collections/HomeTextiles/3.png";
 import MenImg from "@/assets/product_collections/mens/glory-008.jpg";
 
