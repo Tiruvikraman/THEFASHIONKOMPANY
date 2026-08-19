@@ -164,7 +164,7 @@ export default function BrandSections() {
   ];
 
   const fashionDomesticBrands = [
-    "masculinilatino.png", "netplay.png", "zaivame.png","mufti.png"
+     "netplay.png", "zaivame.png","mufti.png"
   ];
 
   const workwearBrands = [
