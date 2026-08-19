@@ -12,9 +12,6 @@ import bgImage   from "@/assets/abt_pg_bg.jpeg";
 import founderImg from "@/assets/founder_image.jpeg";
 import logo      from "@/assets/logo.png";
 import tea       from "@/assets/Position_logo/tea.png";
-import abat      from "@/assets/Position_logo/abat.png";
-import ml        from "@/assets/brand_images/masculinilatino.png";
-import bsl       from "@/assets/Position_logo/bsl.png";
 
 /* ─── FOUNDER ORG POSITIONS ─────────────────────────────────────────────── */
 const founderPositions = [
@@ -24,30 +21,13 @@ const founderPositions = [
     logo: logo,
     color: "#1d4ed8",
   },
-  {
-    role: "Co-Founder",
-    org: "Masculino Latino",
-    logo: ml,
-    color: "#7c3aed",
-  },
+ 
   {
     role: "Executive Committee Member           / Vice Chairman — Branding & Sustainability Committee",
     org: "Tirupur Exporters Association",
     logo: tea,
     color: "#0891b2",
-  },
-  {
-    role: "Co-Founder & Vice President",
-    org: "Association of Buying Agents for Textiles (ABAT)",
-    logo: abat,
-    color: "#059669",
-  },
-  {
-    role: "Vice President for South Region",
-    org: "Brands and Sourcing Leaders Association (BSL)",
-    logo: bsl,
-    color: "#059669",
-  },
+  }
 ];
 
 const fadeUp = {
