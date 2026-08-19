@@ -81,9 +81,9 @@ const Navbar = () => {
 
   <span
     className="gcm-logo-text text-[2.35rem] leading-none font-black tracking-[-0.02em]"
-    style={{ color: "#c71717" }}
+    style={{ color: "#ebc897fe" }}
   >
-    Gloria Casa Moda
+    The Fashion Kompany
   </span>
 
 </Link>

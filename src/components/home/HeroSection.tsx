@@ -1,13 +1,8 @@
 import logo from "@/assets/logo.png";
-import bg  from "@/assets/Team/img1.png";
-import bg2 from "@/assets/Team/img2.png";
-import bg5 from "@/assets/Team/img5.png";
-import bg7 from "@/assets/Team/group_photo.png";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Globe, Users, Sparkles } from "lucide-react";
+import { ArrowRight, Globe, Users, Sparkles, Shirt, Tag, Scissors } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
 
 /* ─── DATA ───────────────────────────────────────────────────────────────── */
 const highlights = [
@@ -24,7 +19,26 @@ const fadeUp = {
   }),
 };
 
-const bgImages = [bg, bg2, bg5, bg7];
+/* Custom hanger icon — lucide has no hanger, so a small hand-drawn one */
+const HangerIcon = ({ size = 40, style = {} }: { size?: number; style?: React.CSSProperties }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={style}>
+    <path d="M12 3a1.5 1.5 0 1 1 1.5 1.5" />
+    <path d="M12 4.5v2" />
+    <path d="M12 6.5 3 12.5a1 1 0 0 0 0.55 1.83H20.45A1 1 0 0 0 21 12.5L12 6.5Z" />
+    <path d="M5 17.5h14" />
+  </svg>
+);
+
+/* Decorative scattered garment motifs, floating + parallax */
+const decorItems = [
+  { Icon: HangerIcon, side: "left",  top: "12%",  x: "6%",  size: 56, rot: -18, depth: 1.0, delay: 0.2,  float: 6, color: "rgba(120,135,255,0.55)" },
+  { Icon: Shirt,       side: "left",  top: "48%",  x: "13%", size: 38, rot: 10,  depth: 0.5, delay: 0.5,  float: 4, color: "rgba(255,255,255,0.4)"  },
+  { Icon: Tag,         side: "left",  top: "74%",  x: "4%",  size: 30, rot: -8,  depth: 0.8, delay: 0.8,  float: 5, color: "rgba(120,135,255,0.45)" },
+
+  { Icon: HangerIcon, side: "right", top: "20%",  x: "8%",  size: 42, rot: 22,  depth: 0.7, delay: 0.35, float: 5, color: "rgba(255,255,255,0.4)"  },
+  { Icon: Scissors,    side: "right", top: "55%",  x: "5%",  size: 34, rot: -14, depth: 1.0, delay: 0.65, float: 6, color: "rgba(120,135,255,0.55)" },
+  { Icon: Shirt,       side: "right", top: "78%",  x: "14%", size: 48, rot: 8,   depth: 0.5, delay: 0.95, float: 4, color: "rgba(255,255,255,0.4)"  },
+];
 
 /* ─── PARALLAX MOUSE ─────────────────────────────────────────────────────── */
 function useParallax() {
@@ -43,97 +57,37 @@ function useParallax() {
   return { sx, sy, handleMouseMove, handleMouseLeave };
 }
 
-/* ─── SCROLLING PHOTO BOX ────────────────────────────────────────────────── */
-const ScrollingPhotoBox = () => {
-  const clipRef  = useRef<HTMLDivElement>(null); // the overflow:hidden box
-  const trackRef = useRef<HTMLDivElement>(null); // the flex row of images
-  const animRef  = useRef<number>(0);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
-
-  // index always goes 0→1→2→3→0→1… using the ORIGINAL 4 images (no tripling needed)
-  const indexRef = useRef(0);
-  const posRef   = useRef(0); // current translateX offset in px
-
-  useEffect(() => {
-    const clip  = clipRef.current;
-    const track = trackRef.current;
-    if (!clip || !track) return;
-
-    const swipeToNext = () => {
-      cancelAnimationFrame(animRef.current);
-
-      const boxW = clip.offsetWidth;            // exact pixel width of the clipping box
-      indexRef.current = (indexRef.current + 1) % bgImages.length;
-      const target = indexRef.current * boxW;   // exact pixel we need to land on
-      const speed  = 24;                        // px per frame — higher = faster swipe
-
-      const sweep = () => {
-        const diff = target - posRef.current;
-        if (diff <= speed) {
-          // Snap exactly — guarantees only 1 image is ever visible
-          posRef.current = target;
-          track.style.transform = `translateX(-${posRef.current}px)`;
-          timerRef.current = setTimeout(swipeToNext, 3000);
-          return;
-        }
-        posRef.current += speed;
-        track.style.transform = `translateX(-${posRef.current}px)`;
-        animRef.current = requestAnimationFrame(sweep);
-      };
-
-      animRef.current = requestAnimationFrame(sweep);
-    };
-
-    // Hold first image for 3 s then start cycling
-    timerRef.current = setTimeout(swipeToNext, 3000);
-
-    return () => {
-      clearTimeout(timerRef.current);
-      cancelAnimationFrame(animRef.current);
-    };
-  }, []);
+/* One floating decorative icon, drifting up/down forever + reacting to parallax */
+const DecorIcon = ({ item, sx, sy }: { item: typeof decorItems[number]; sx: any; sy: any }) => {
+  const px = useTransform(sx, (v: number) => `${v * item.depth * (item.side === "left" ? -1 : 1)}px`);
+  const py = useTransform(sy, (v: number) => `${v * item.depth}px`);
+  const { Icon } = item;
 
   return (
-    /* clip box — overflow hidden, exact size of the right column */
-    <div
-      ref={clipRef}
+    <motion.div
       style={{
-        width: "100%",
-        height: "100%",
-        borderRadius: "20px",
-        overflow: "hidden",
-        position: "relative",
-        border: "1px solid rgba(255,255,255,0.08)",
+        position: "absolute",
+        top: item.top,
+        [item.side]: item.x,
+        x: px,
+        y: py,
+        color: item.color,
+        pointerEvents: "none",
       }}
+      initial={{ opacity: 0, scale: 0.85 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.9, delay: item.delay, ease: [0.22, 1, 0.36, 1] }}
     >
-      {/* track: all 4 images side by side, each exactly as wide as the clip box */}
-      <div
-        ref={trackRef}
-        style={{
-          display: "flex",
-          height: "100%",
-          width: `${bgImages.length * 100}%`,  // e.g. 400% for 4 images
-          willChange: "transform",
-        }}
+      <motion.div
+        animate={{ y: [0, -item.float, 0], rotate: [item.rot, item.rot + 4, item.rot] }}
+        transition={{ duration: 5 + item.float, repeat: Infinity, ease: "easeInOut", delay: item.delay }}
       >
-        {bgImages.map((src, i) => (
-          <div
-            key={i}
-            style={{
-              width: `${100 / bgImages.length}%`, // each slide = 1/4 of track = 100% of clip
-              height: "100%",
-              flexShrink: 0,
-            }}
-          >
-            <img
-              src={src}
-              alt=""
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
+        {Icon === HangerIcon
+          ? <HangerIcon size={item.size} style={{ filter: "drop-shadow(0 0 14px rgba(80,92,228,0.45))" }} />
+          : <Icon size={item.size} style={{ filter: "drop-shadow(0 0 14px rgba(80,92,228,0.45))" }} />
+        }
+      </motion.div>
+    </motion.div>
   );
 };
 
@@ -199,6 +153,10 @@ const HeroSection = () => {
         .gcm-breadcrumb a:hover { color: #fff; }
         .gcm-breadcrumb .sep    { color: rgba(255,255,255,0.3); margin: 0 6px; }
         .gcm-breadcrumb .active { color: #fff; font-weight: 500; }
+
+        @media (max-width: 900px) {
+          .gcm-decor { display: none; }
+        }
       `}</style>
 
       <section
@@ -222,12 +180,28 @@ const HeroSection = () => {
           zIndex: 1, pointerEvents: "none",
         }} />
 
+        {/* purple ambient glow, right side, balances composition */}
+        <div style={{
+          position: "absolute", right: "-6%", top: "18%",
+          width: 460, height: 460,
+          background: "rgba(80,92,228,0.08)",
+          filter: "blur(110px)", borderRadius: "50%",
+          zIndex: 1, pointerEvents: "none",
+        }} />
+
+        {/* ── DECORATIVE GARMENT MOTIFS, filling left/right gaps ── */}
+        <div className="gcm-decor" style={{ position: "absolute", inset: 0, zIndex: 2 }}>
+          {decorItems.map((item, i) => (
+            <DecorIcon key={i} item={item} sx={sx} sy={sy} />
+          ))}
+        </div>
+
         {/* ── BREADCRUMB ── */}
         <motion.nav
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="gcm-breadcrumb relative"
+          className="gcm-breadcrumb relative flex justify-center"
           style={{ zIndex: 10, padding: "28px 56px 0" }}
         >
           <Link to="/">Home</Link>
@@ -241,21 +215,18 @@ const HeroSection = () => {
           <span className="active">Global Sourcing</span>
         </motion.nav>
 
-        {/* ── TWO-COLUMN GRID — text left | photo right (Target HK style) ── */}
+        {/* ── SINGLE CENTERED COLUMN ── */}
         <div
-          className="relative flex-1"
+          className="relative flex-1 flex flex-col items-center justify-center text-center"
           style={{
             zIndex: 10,
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",  // equal halves; change to "55fr 45fr" to give more room to text
-            gap: "48px",
-            padding: "48px 56px 72px",
-            alignItems: "center",
+            padding: "65px 6% 72px",
           }}
         >
 
-          {/* ── LEFT: TEXT CONTENT ── */}
-          <motion.div style={{ x: txtX, y: txtY }}>
+          <motion.div
+            style={{ x: txtX, y: txtY, display: "flex", flexDirection: "column", alignItems: "center", maxWidth: 720 }}
+          >
 
             {/* badge */}
             <motion.div
@@ -266,38 +237,32 @@ const HeroSection = () => {
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span style={{ fontSize: 11, color: "rgba(255,255,255,0.8)", letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600 }}>
-                Your Trusted Sourcing Consultant · Tiruppur, India
+                Your Trusted Manufacturing & Sourcing Consultant · Tiruppur, India
               </span>
             </motion.div>
 
-            {/* Logo + Brand Name */}
+            {/* Logo mark */}
             <motion.div
               variants={fadeUp} initial="hidden" animate="visible" custom={0.5}
-              className="flex items-center gap-5 mb-6"
+              className="flex items-center justify-center mb-6"
             >
               <img
                 src={logo}
-                alt="Gloria Casa Moda"
-                style={{ height: "64px", width: "auto", objectFit: "contain", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.5))" }}
+                alt="The Fashion Kompany"
+                style={{ height: "200px", width: "auto", objectFit: "contain", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.5))" }}
               />
-              <h1
-                className="gcm-logo-text"
-                style={{ fontSize: "clamp(2.2rem, 5vw, 4.5rem)", color: "#c41c1c", lineHeight: 1.05, textShadow: "0 2px 16px rgba(0,0,0,0.5)" }}
-              >
-                Gloria Casa Moda
-              </h1>
             </motion.div>
 
             {/* red accent line */}
             <motion.div
               variants={fadeUp} initial="hidden" animate="visible" custom={0.7}
-              style={{ height: 3, width: "100%", maxWidth: 360, background: "linear-gradient(90deg, rgba(63, 54, 235, 0.55), transparent)", marginBottom: "24px" }}
+              style={{ height: 3, width: "100%", maxWidth: 360, background: "linear-gradient(90deg, rgba(63, 54, 235, 0.55), rgba(63, 54, 235, 0.55), transparent)", margin: "0 auto 24px" }}
             />
 
             {/* description */}
             <motion.p
               variants={fadeUp} initial="hidden" animate="visible" custom={0.9}
-              style={{ fontSize: "clamp(14px, 1.6vw, 17px)", color: "rgba(255,255,255,0.80)", lineHeight: 1.8, maxWidth: 500, marginBottom: "32px", fontWeight: 300 }}
+              style={{ fontSize: "clamp(14px, 1.6vw, 17px)", color: "rgba(255,255,255,0.80)", lineHeight: 1.8, maxWidth: 560, marginBottom: "32px", fontWeight: 300 }}
             >
               We prioritize developing garments that have a positive impact on people and the planet.
               Our goal is to deliver exceptional value, quality and style — from product development
@@ -307,7 +272,7 @@ const HeroSection = () => {
             {/* highlight chips */}
             <motion.div
               variants={fadeUp} initial="hidden" animate="visible" custom={1.1}
-              className="flex flex-wrap gap-3 mb-10"
+              className="flex flex-wrap gap-3 mb-10 justify-center"
             >
               {highlights.map(({ icon: Icon, label }, i) => (
                 <motion.div
@@ -326,7 +291,7 @@ const HeroSection = () => {
             {/* CTA buttons */}
             <motion.div
               variants={fadeUp} initial="hidden" animate="visible" custom={1.3}
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap gap-4 justify-center"
             >
               <Link
                 to="/contact"
@@ -347,19 +312,6 @@ const HeroSection = () => {
 
           </motion.div>
 
-          {/* ── RIGHT: SCROLLING PHOTO BOX ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              height: "420px",   // ← adjust this to make the photo box taller/shorter
-              position: "relative",
-            }}
-          >
-            <ScrollingPhotoBox />
-          </motion.div>
-
         </div>
 
         {/* location label */}
@@ -367,7 +319,8 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          style={{ position: "absolute", bottom: 28, left: 56, zIndex: 10, display: "flex", alignItems: "center", gap: 10 }}
+          className="flex justify-center"
+          style={{ position: "absolute", bottom: 28, left: 0, right: 0, zIndex: 10, alignItems: "center", gap: 10 }}
         >
           <div style={{ width: 28, height: 1, background: "rgba(255,255,255,0.3)" }} />
           <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: "0.2em", textTransform: "uppercase" }}>

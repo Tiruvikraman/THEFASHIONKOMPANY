@@ -179,7 +179,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">
-                      mac@gloryhouse.info<br />mahesh@gloryhouse.info
+                      Md@thefashionkompany.com<br />Gm@thefashionkompany.com
                     </p>
                     <p className="text-sm text-muted-foreground">Response within 24 hours</p>
                   </div>
@@ -192,7 +192,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">
-                      +91-98944 20000<br />+91-97894 99717
+                      +91-98944 40335<br />+91-98944 42496
                     </p>
                     <p className="text-sm text-muted-foreground">Mon–Sat, 9AM–6PM IST</p>
                   </div>
@@ -206,9 +206,9 @@ const Contact = () => {
                   <div>
                     
                       
-                      +91-98944 20000
+                      +91-98944 40335
                     <br/>
-                      +91-97894 99717
+                      +91-98944 42496
                     <p className="text-sm text-muted-foreground">Chat with us on WhatsApp</p>
                   </div>
                 </div>

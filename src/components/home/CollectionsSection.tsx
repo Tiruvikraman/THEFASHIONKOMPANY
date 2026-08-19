@@ -7,7 +7,7 @@ import KidsImg from "@/assets/product_collections/kids/1.png";
 import InnerwearImg from "@/assets/product_collections/Inner_garments/1.png";
 import WorkwearImg from "@/assets/product_collections/Workwear/1.jpeg";
 import HomeTextilesImg from "@/assets/product_collections/HomeTextiles/3.png";
-import MenImg from "@/assets/product_collections/mens/glory-008.jpg";
+import MenImg from "@/assets/product_collections/mens/6.jpg";
 
 /* ─── DATA ───────────────────────────────────────────────────────────────── */
 const collections = [

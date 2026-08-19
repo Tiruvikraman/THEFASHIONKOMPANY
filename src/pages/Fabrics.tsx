@@ -39,7 +39,7 @@ const fabrics = [
     uses: "Sweatshirts, Jackets, Winter Wear",
     tag: "Seasonal",            accent: "#b45309",
     certs: ["GOTS"],
-    image: "https://www.thefabricbee.co.uk/cdn/shop/products/fleece-white.jpg?v=1579539834",
+    image: "https://sino-silk.com/wp-content/uploads/2024/03/Sherpa-Fleece.jpg",
   },
   {
     name: "Pique",         type: "Knit",

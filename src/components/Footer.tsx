@@ -29,7 +29,7 @@ const Footer = () => {
               <div className="flex items-center gap-3">
                 <img
                   src={logo}
-                  alt="Gloria Casa Moda"
+                  alt="The Fashion Kompany"
                   style={{ height: "48px", width: "auto", objectFit: "contain" }}
                 />
                 <div>
@@ -37,7 +37,7 @@ const Footer = () => {
                     className="text-xl font-black text-white tracking-tight mb-1"
                     style={{ fontFamily: "'Syne', sans-serif" }}
                   >
-                    GLORIA CASA MODA
+                    The Fashion Kompany
                   </h3>
                   <div className="h-[2px] w-10 rounded-full" style={{ background: "linear-gradient(90deg, #3b82f6, #7c3aed)" }} />
                 </div>
@@ -51,8 +51,8 @@ const Footer = () => {
               <div className="space-y-2.5">
                 {[
                   { icon: MapPin, text: "1/3,Ground Floor,Vadaku Thottam,Mangalam Main Road,Parapalayam,Tiruppur – 641604," },
-                  { icon: Mail, text: "mac@gloryhouse.info, mahesh@gloryhouse.info" },
-                  { icon: Phone, text: "+91-98944 20000, +91-97894 99717" },
+                  { icon: Mail, text: "Md@thefashionkompany.com, Gm@thefashionkompany.com" },
+                  { icon: Phone, text: "+91-98944 40335, +91-98944 42496" },
                 ].map(({ icon: Icon, text }) => (
                   <div key={text} className="flex items-center gap-2.5">
                     <Icon className="w-3.5 h-3.5 text-blue-400 shrink-0" />
@@ -108,12 +108,12 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* ── CONNECT ── */}
+            {/* ── The Fashion Kompany ── */}
             <div className="lg:col-span-3 space-y-4">
-              <p className="text-[10px] text-white/30 uppercase tracking-[0.25em] font-semibold">Connect</p>
+              <p className="text-[10px] text-white/30 uppercase tracking-[0.25em] font-semibold">The Fashion Kompany</p>
               <div className="flex flex-col gap-2.5">
                 {[
-                  { label: "LinkedIn", href: "https://www.linkedin.com/company/gloria-casa-moda/" },
+                  
                   { label: "Instagram", href: "#" },
                   { label: "Contact Sales", href: "/contact" },
                 ].map((item) => (
@@ -159,7 +159,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
 
             <p className="text-xs text-white/30">
-              © 2026 Gloria Casa Moda. All rights reserved.
+              © 2026 The Fashion Kompany. All rights reserved.
             </p>
 
 

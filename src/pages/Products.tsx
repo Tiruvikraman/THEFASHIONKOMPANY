@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 import { SlidersHorizontal, ChevronDown } from "lucide-react";
 
 /* ─── GLOB IMPORTS ───────────────────────────────────────────────────────── */
-const kidsImgs = import.meta.glob("@/assets/product_collections/kids/*.{jpg,jpeg,png,webp}", { eager: true });
 const mensImgs = import.meta.glob("@/assets/product_collections/mens/*.{jpg,jpeg,png,webp}", { eager: true });
 const menPoloImgs = import.meta.glob("@/assets/product_collections/mens/polo/*.{jpg,jpeg,png,webp}", { eager: true });
 const menTshirtImgs = import.meta.glob("@/assets/product_collections/mens/*.{jpg,jpeg,png,webp}", { eager: true });
@@ -15,6 +14,8 @@ const workwearImgs = import.meta.glob("@/assets/product_collections/workwear/*.{
 const innerImgs = import.meta.glob("@/assets/product_collections/Inner_garments/*.{jpg,jpeg,png,webp}", { eager: true });
 const infantImgs = import.meta.glob("@/assets/product_collections/Infants/*.{jpg,jpeg,png,webp}", { eager: true });
 const homeTextilesImgs = import.meta.glob("@/assets/product_collections/HomeTextiles/*.{jpg,jpeg,png,webp}", { eager: true });
+const boysImg = import.meta.glob("@/assets/product_collections/boys/*.{jpg,jpeg,png,webp}", { eager: true });
+const girlsImg = import.meta.glob("@/assets/product_collections/girls/*.{jpg,jpeg,png,webp}", { eager: true });
 
 const sleevelessImgs: Record<string, { default: string }> = Object.fromEntries(
   [
@@ -204,19 +205,20 @@ const FILTER_GROUPS: FilterGroup[] = [
         images: toSrcs(mensImgs),
         subcategories: [
           {
-            slug: "men-polo",
-            label: "Polo",
-            accent: "#0284c7",
-            fabric: "Pique Cotton",
-            images: toSrcs(menPoloImgs),
-          },
-          {
             slug: "men-tshirt",
             label: "T-Shirt",
             accent: "#0891b2",
             fabric: "Single Jersey",
             images: toSrcs(menTshirtImgs),
           },
+          {
+            slug: "men-polo",
+            label: "Polo",
+            accent: "#0284c7",
+            fabric: "Pique Cotton",
+            images: toSrcs(menPoloImgs),
+          },
+          
           {
             slug: "men-sweatshirt",
             label: "Sweatshirt / Hoodie",
@@ -229,8 +231,9 @@ const FILTER_GROUPS: FilterGroup[] = [
         ],
       },
       { slug: "women", label: "Women", accent: "#ec4899", fabric: "Various", images: toSrcs(womensImgs) },
-      { slug: "kids", label: "Kids", accent: "#7c3aed", fabric: "Combed Cotton", images: toSrcs(kidsImgs) },
-      { slug: "infant", label: "Infant", accent: "#247fda", fabric: "Various", images: toSrcs(infantImgs) },
+    // 1. Swap slug and label, lowercase the slugs
+{ slug: "boys", label: "Boys", accent: "#ce6e7a", fabric: "Combed Cotton", images: toSrcs(boysImg) },
+{ slug: "girls", label: "Girls", accent: "#e7cf57", fabric: "Combed Cotton", images: toSrcs(girlsImg) },    { slug: "infant", label: "Infant", accent: "#247fda", fabric: "Various", images: toSrcs(infantImgs) },
       // { slug: "sleeveless", label: "Sleeveless", accent: "#059669", fabric: "Single Jersey", images: toSrcs(sleevelessImgs) },
       
       { slug: "inner", label: "Inners", accent: "#9333ea", fabric: "Various", images: toSrcs(innerImgs) },

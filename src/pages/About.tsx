@@ -20,7 +20,7 @@ import bsl       from "@/assets/Position_logo/bsl.png";
 const founderPositions = [
   {
     role: "Managing Director",
-    org: "Gloria Casa Moda",
+    org: "The Fashion Kompany",
     logo: logo,
     color: "#1d4ed8",
   },
@@ -50,7 +50,6 @@ const founderPositions = [
   },
 ];
 
-/* ─── ANIMATION VARIANTS ─────────────────────────────────────────────────── */
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number = 0) => ({
@@ -170,16 +169,20 @@ const About = () => {
           <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0}
             className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/20 rounded-full px-4 py-2 mb-8">
             <MapPin className="w-4 h-4 text-indigo-300" />
-            <span className="text-xs text-indigo-200 tracking-widest uppercase font-semibold">Tiruppur, India · Est. 1998</span>
+            <span className="text-xs text-indigo-200 tracking-widest uppercase font-semibold">Tiruppur, India ·</span>
           </motion.div>
 
-          <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={0.5}
-            className="flex items-center gap-6 mb-4">
-            <img src={logo} alt="Gloria Casa Moda" style={{ height: "96px", width: "auto", objectFit: "contain", flexShrink: 0 }} />
-            <h1 className="text-6xl md:text-8xl font-black leading-[0.9]">
-              <span className="gcm-logo-text" style={{ color: "#ac1b1b" }}>Gloria Casa Moda</span>
-            </h1>
-          </motion.div>
+        {/* Logo mark only (brand wordmark removed) */}
+            <motion.div
+              variants={fadeUp} initial="hidden" animate="visible" custom={0.5}
+              className="flex items-center mb-6"
+            >
+              <img
+                src={logo}
+                alt="The Fashion Kompany"
+                style={{ height: "200px", width: "auto", objectFit: "contain", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.5))" }}
+              />
+            </motion.div>
 
           <motion.p variants={fadeUp} initial="hidden" animate="visible" custom={2}
             className="mt-8 text-lg md:text-xl text-white/70 max-w-2xl leading-relaxed font-light">
@@ -234,28 +237,7 @@ const About = () => {
           <div className="flex flex-wrap gap-16 items-start">
 
             {/* Portrait */}
-            <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
-              className="w-64 shrink-0 sticky top-28 self-start">
-              <div className="relative">
-                <div className="absolute -inset-3 rounded-2xl bg-gradient-to-br from-indigo-400 to-purple-500 opacity-20 blur-sm" />
-                <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border-2 border-indigo-100 shadow-2xl shadow-indigo-200/50">
-                  <img src={founderImg} className="w-full h-full object-cover" alt="Mr. Mezhiselvan" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-3 left-0 right-0 text-center px-2">
-                    <p className="text-white text-sm font-bold">Mr. Mezhi Selvan</p>
-                    <p className="text-indigo-200 text-xs">Managing Director</p>
-                  </div>
-                </div>
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -bottom-4 -right-4 bg-white rounded-xl shadow-xl border border-indigo-100 px-3 py-2 flex items-center gap-2"
-                >
-                  <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                  <span className="text-xs font-bold text-gray-700">25+ Yrs</span>
-                </motion.div>
-              </div>
-            </motion.div>
+            
 
             {/* Text column */}
             <div className="flex-1 min-w-[280px] space-y-7">
@@ -269,7 +251,7 @@ const About = () => {
               </motion.h2>
 
               {[
-                "The story begins in the heart of Tiruppur — India's knit capital — where Gloria Casa Moda was founded with a singular vision: to be the most reliable sourcing partner for global apparel buyers. What started as a small FashionWear operation has grown into a full-service export sourcing destination trusted by brands across Europe, the Americas, and the Middle East.",
+                "The story begins in the heart of Tiruppur — India's knit capital — where The Fashion Kompany was founded with a singular vision: to be the most reliable sourcing partner for global apparel buyers. What started as a small FashionWear operation has grown into a full-service export sourcing destination trusted by brands across Europe, the Americas, and the Middle East.",
                 "In addition to our Fashionwear division, we have expanded our capabilities to cover workwear apparel, sustainable collections, and performance wear. Our network spans over 40+ vetted factories across South India, giving our clients unmatched production flexibility.",
                 "Every fabric is carefully selected, every stitch inspected. We believe that great clothing starts with great sourcing — and great sourcing starts with people who genuinely care.",
               ].map((text, i) => (
@@ -376,7 +358,7 @@ const About = () => {
               What We <span className="shimmer-text">Do</span>
             </h2>
             <p className="mt-4 text-white/80 max-w-xl mx-auto">
-              Since our inception in the year 1998, we have been consistently following a path of progressive development
+              Since our inception, we have been consistently following a path of progressive development
               with our product excellence, customisation and timely delivery. Today we are reckoned as a dependable and
               professionally competent organisation.
             </p>
@@ -427,6 +409,7 @@ const About = () => {
                 Tiruppur accounts for over 90% of India's cotton knitwear exports.
                 Being headquartered here gives our clients direct access to the
                 world's most efficient apparel manufacturing ecosystem.
+                Tiruppur cluster is leading in sustainable practices with 60% of units adopting water recycling (Zero Liquid Discharge) and renewable energy, ensuring eco-friendly production.
               </motion.p>
             </div>
 

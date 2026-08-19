@@ -11,6 +11,16 @@ Object.entries(images).forEach(([path, img]: any) => {
   brands[file!] = img.default;
 });
 
+/* ─── HELPERS ────────────────────────────────────────────────────────────── */
+function formatBrandName(key: string): string {
+  return key
+    .replace(/\.(png|jpg|jpeg|svg)$/i, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 /* ─── BRAND GRID ─────────────────────────────────────────────────────────── */
 function BrandGrid({ items, accentColor }: { items: string[]; accentColor?: string }) {
   const ref    = useRef(null);
@@ -26,9 +36,9 @@ function BrandGrid({ items, accentColor }: { items: string[]; accentColor?: stri
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
           whileHover={{ scale: 1.1, y: -4, zIndex: 10 }}
-          className="group flex items-center justify-center rounded-2xl cursor-pointer relative overflow-hidden"
+          className="group flex flex-col items-center justify-start rounded-2xl cursor-pointer relative overflow-hidden"
           style={{
-            height: 90,
+            height: 120,
             background: "linear-gradient(135deg, #ffffff, #f0f4ff)",
             border: "1.5px solid #e0e7ff",
             boxShadow: "0 2px 12px rgba(99,102,241,0.08)",
@@ -47,12 +57,34 @@ function BrandGrid({ items, accentColor }: { items: string[]; accentColor?: stri
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{ background: `linear-gradient(135deg, ${accent}15, ${accent}08)` }}
           />
-          <img
-            src={brands[key]}
-            alt={key.replace(/\.(png|jpg|jpeg|svg)$/, "").replace(/[-_]/g, " ")}
-            className="relative h-12 md:h-14 w-full object-contain px-4"
-            style={{ filter: "none" }}
-          />
+
+          {/* logo — same size as original */}
+          <div className="relative flex items-center justify-center w-full" style={{ height: 90 }}>
+            <img
+              src={brands[key]}
+              alt={formatBrandName(key)}
+              className="h-12 md:h-14 w-full object-contain px-4"
+              style={{ filter: "none" }}
+            />
+          </div>
+
+          {/* brand name below */}
+          <div className="relative w-full flex items-center justify-center px-2" style={{ height: 30 }}>
+            <span
+              className="text-center w-full truncate"
+              style={{
+                fontSize: "10px",
+                fontWeight: 600,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                color: accent,
+                lineHeight: 1,
+              }}
+              title={formatBrandName(key)}
+            >
+              {formatBrandName(key)}
+            </span>
+          </div>
         </motion.div>
       ))}
     </div>
@@ -93,7 +125,7 @@ function SectionHeader({ icon: Icon, label, title, color }: {
   );
 }
 
-/* ─── SUB-SECTION HEADER (for Export / Domestic split) ───────────────────── */
+/* ─── SUB-SECTION HEADER ─────────────────────────────────────────────────── */
 function SubSectionHeader({ icon: Icon, label, color }: {
   icon: typeof Globe; label: string; color: string;
 }) {
@@ -125,14 +157,14 @@ function SubSectionHeader({ icon: Icon, label, color }: {
 /* ─── MAIN ───────────────────────────────────────────────────────────────── */
 export default function BrandSections() {
   const fashionExportBrands = [
-    "harmont&blaine.png", "sonnybonno.png", "yamamay.png",
+    "jack&jones.png", "harmont&blaine.png", "sonnybonno.png", "yamamay.png",
     "f__k.png",           "bhtextile.png",  "tailorenstitch.png",
-    "jack&jones.png",     "lolaliza.png",   "treeker9.png",
-    "cat.png",            "gloriajeans.jpg",
+        "lolaliza.png",   "treeker9.png",
+    "cat.png",            
   ];
 
   const fashionDomesticBrands = [
-    "masculinilatino.png", "netplay.png", "zaivame.png",
+    "masculinilatino.png", "netplay.png", "zaivame.png","mufti.png"
   ];
 
   const workwearBrands = [
