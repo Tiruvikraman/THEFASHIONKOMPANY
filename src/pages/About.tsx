@@ -68,9 +68,10 @@ const advantages = [
 const stats = [
   { value: "30+",  label: "Years Experience" },
   { value: "25+",  label: "Countries Served" },
-  { value: "25+",  label: "Happy Clients" },
+  { value: "20+",  label: "Happy Clients" },
   { value: "20M+", label: "Units Exported" },
 ];
+
 
 /* ─── FLOATING PARTICLE ──────────────────────────────────────────────────── */
 const Particle = ({ x, y, delay, size }: { x: number; y: number; delay: number; size: number }) => (
