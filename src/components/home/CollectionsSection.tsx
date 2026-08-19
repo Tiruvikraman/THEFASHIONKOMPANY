@@ -4,7 +4,6 @@ import { ArrowRight, Tag, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import WomenImg from "@/assets/product_collections/womens/women-17032025-13.jpg";
 import KidsImg from "@/assets/product_collections/kids/1.png";
-import InnerwearImg from "@/assets/product_collections/Inner_garments/1.png";
 import WorkwearImg from "@/assets/product_collections/Workwear/1.jpeg";
 import HomeTextilesImg from "@/assets/product_collections/HomeTextiles/3.png";
 import MenImg from "@/assets/product_collections/mens/6.jpg";
@@ -14,7 +13,6 @@ const collections = [
   { name: "Men",           slug: "men",           category: "Basics",   accent: "#1d4ed8", image: MenImg},
   { name: "Women",         slug: "women",         category: "Classics", accent: "#0f766e", image: WomenImg },
   { name: "Kid's",         slug: "kids",          category: "Kids",     accent: "#7c3aed", image: KidsImg },
-  { name: "InnerWear",     slug: "inner",     category: "Basics",   accent: "#0891b2", image: InnerwearImg },
   { name: "WorkWear",      slug: "workwear",      category: "Bottoms",  accent: "#b45309", image: WorkwearImg },
   { name: "Home Textiles", slug: "hometextile", category: "Active",   accent: "#059669", image: HomeTextilesImg },
 ];

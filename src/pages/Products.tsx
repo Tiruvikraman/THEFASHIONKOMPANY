@@ -11,7 +11,6 @@ const menSweatshirtImgs = import.meta.glob("@/assets/product_collections/hoodie/
 const womensImgs = import.meta.glob("@/assets/product_collections/womens/*.{jpg,jpeg,png,webp}", { eager: true });
 const hoodieImgs = import.meta.glob("@/assets/product_collections/hoodie/*.{jpg,jpeg,png,webp}", { eager: true });
 const workwearImgs = import.meta.glob("@/assets/product_collections/workwear/*.{jpg,jpeg,png,webp}", { eager: true });
-const innerImgs = import.meta.glob("@/assets/product_collections/Inner_garments/*.{jpg,jpeg,png,webp}", { eager: true });
 const infantImgs = import.meta.glob("@/assets/product_collections/Infants/*.{jpg,jpeg,png,webp}", { eager: true });
 const homeTextilesImgs = import.meta.glob("@/assets/product_collections/HomeTextiles/*.{jpg,jpeg,png,webp}", { eager: true });
 const boysImg = import.meta.glob("@/assets/product_collections/boys/*.{jpg,jpeg,png,webp}", { eager: true });
@@ -236,7 +235,6 @@ const FILTER_GROUPS: FilterGroup[] = [
 { slug: "girls", label: "Girls", accent: "#e7cf57", fabric: "Combed Cotton", images: toSrcs(girlsImg) },    { slug: "infant", label: "Infant", accent: "#247fda", fabric: "Various", images: toSrcs(infantImgs) },
       // { slug: "sleeveless", label: "Sleeveless", accent: "#059669", fabric: "Single Jersey", images: toSrcs(sleevelessImgs) },
       
-      { slug: "inner", label: "Inners", accent: "#9333ea", fabric: "Various", images: toSrcs(innerImgs) },
    
     ],
   },
